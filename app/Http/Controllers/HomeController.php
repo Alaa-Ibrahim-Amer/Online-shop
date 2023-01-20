@@ -7,25 +7,13 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    //
     function index()
     {
-        return view('index')->with([
-            'categories' => Category::all()
-        ]);
+        return view('index')->with('categories',Category::all());
     }
-    function shop()
-    {
 
+    function shop(){
         return view('shop');
-    }
-    function admin()
-    {
-
-        return view('admin.admin');
-    }
-    function admin_categories()
-    {
-
-        return view('admin.pages.category');
     }
 }
