@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/shop', [HomeController::class, 'shop']);
+Route::get('/admin', [HomeController::class, 'admin']);
+Route::get('/admin/categories', [CategoriesController::class, 'show_categories']);
+

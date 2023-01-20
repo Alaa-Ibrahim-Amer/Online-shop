@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductsController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,9 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/shop', [HomeController::class, 'shop']);
-Route::get('/admin', [AdminController::class, 'admin']);
-Route::get('/admin/categories', [AdminController::class, 'admin_categories']);
+Route::get('/admin', [HomeController::class, 'admin']);
+Route::get('/admin/categories', [CategoriesController::class, 'show_categories']);
+
