@@ -119,7 +119,7 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($id);
         Product::destroy($id);
-        return redirect()->action([ProductsController::class, 'index'])->with('success', 'Record has been deleted successfully!');
+        return redirect("index")->with('success', 'Record has been deleted successfully!');
   
     }
 }

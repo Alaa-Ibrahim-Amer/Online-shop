@@ -62,7 +62,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
+            <a class="nav-link"  href="{{url('admin/products')}}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Products
@@ -111,7 +111,7 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-  <div class="content-wrapper" style="min-height: 1383.25px;">
+  <div class="content-wrapper" style="min-height: 1383.25px;background-color: white;">
         <section class="content">
             <div class="container-fluid">
 @yield('content')
