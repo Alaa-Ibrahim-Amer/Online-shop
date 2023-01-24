@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\color;
 use App\Models\size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProductsController extends Controller
 {
@@ -15,6 +16,7 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //

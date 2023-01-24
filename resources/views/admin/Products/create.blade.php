@@ -1,7 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
@@ -18,7 +16,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <!-- left column -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-primary">
                             <!-- form start -->
@@ -76,6 +74,9 @@
                                                     {{ $category->name }}</option>
                                             @endforeach
                                         </select>
+                                    @error('category_id')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Choose color</label>
@@ -141,6 +142,4 @@
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 @endsection

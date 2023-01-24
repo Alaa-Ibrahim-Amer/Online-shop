@@ -11,13 +11,13 @@ class Product extends Model
     public static $rules = ['name' => 'required', 'image' => 'required|mimes:jpg,png,bmp,jpeg|max:2048',
                             'price' => 'required', 'description' => 'required', 
                             'bar_code' => 'required', 'category_id' => 'required', 
-                            'size_id' => 'required', 'color_id' => 'required'];
+                            'size_id' => 'required', 'color_id' => 'required','discount'=>'required'];
     protected $guarded = ['rating', 'rating_count'];
     public static $ruleswithoutfiles = [
         'price' => 'required', 'description' => 'required', 
         'bar_code' => 'required', 'category_id' => 'required', 
         'size_id' => 'required', 'color_id' => 'required',
-        'name' => 'required'
+        'name' => 'required','discount'=>'required'
     ];
 
     public function getPrice()

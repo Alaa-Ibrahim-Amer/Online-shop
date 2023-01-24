@@ -27,7 +27,7 @@
                     <th>is_recent</th>
                     <th>is_featured</th>
 
-                    <th colspan="2">Actions</th>
+                    <th colspan="3">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                         <td>{{ $product['id'] }} </td>
                         <td>{{ $product['name'] }}</td>
                         <td>
-                            <img src="{{ asset('storage/' . $product['image']) }}" alt="image" />
+                            <img src="{{ asset('storage/' . $product['image']) }}" alt="image"  style="width: 150px;higth:150px"/>
                         </td>
                         <td>{{ $product['description'] }}</td>
                         <td>{{ $product['price'] }}</td>
@@ -51,9 +51,13 @@
                             <a class="btn btn-app" href="{{ url('admin/products/' . $product['id']) }}">
                                 <i class="fas fa-eye"></i> Show
                             </a>
+                        </td>
+                        <td>
                             <a class="btn btn-app" href="{{ url('admin/products/' . $product['id'] . '/edit') }}">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
+                        </td>
+                        <td>
                             <form action="{{ url('admin/products/' . $product['id']) }}" method="POST">
                                 @method('DELETE')
                                 @csrf

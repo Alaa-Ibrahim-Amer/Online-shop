@@ -23,7 +23,7 @@
                         <th>#</th>
                         <th> Name </th>
                         <th> Image </th>
-                        <th > Actions </th>
+                        <th colspan="3"> Actions </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,10 +38,14 @@
                                 <a class="btn btn-app" href="{{url('admin/categories/'.$category["id"])}}"  >
                                     <i class="fas fa-eye"></i> Show
                                 </a>
+                            </td>
+                            <td>
                                 <a class="btn btn-app" href="{{url('admin/categories/'.$category["id"].'/edit')}}"  >
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                    <form action="{{ url('admin/categories/' . $category['id']) }}" method="POST">
+                            </td>
+                            <td>
+                                <form action="{{ url('admin/categories/' . $category['id']) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button class="btn btn-app" onclick="return confirm('Are you sure?')">

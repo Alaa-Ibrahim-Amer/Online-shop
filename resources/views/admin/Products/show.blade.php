@@ -1,8 +1,6 @@
 @extends('layouts.admin')
 @section('content')
     <h2> Show product</h2>
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
 
@@ -85,6 +83,4 @@
 
         </section>
         <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 @endsection

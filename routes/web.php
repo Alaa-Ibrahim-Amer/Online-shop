@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,20 +18,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/shop', [HomeController::class, 'shop']);
-Route::prefix('/admin')->group(function () {
-    Route::get((''), [HomeController::class, 'admin']);
-    Route::get('/categories', [CategoriesController::class, 'index']);
-    Route::post('categories', [CategoriesController::class, 'store'])->name('admin.categories');
-    Route::get('/categories/create', [CategoriesController::class, 'create']);
-    Route::get('/categories/{id}/edit', [CategoriesController::class, 'edit']);
-    Route::put('categories/{id}', [CategoriesController::class, 'update']);
-    Route::get('categories/{id}', [CategoriesController::class, 'show']);
-    Route::delete('categories/{id}', [CategoriesController::class, 'destroy']);
-
-   Route::resource('products', ProductsController::class);
+Route::get('/', [MainController::class,'index']);
+Route::get('/add-product', [MainController::class, 'add_product']);
+Route::get('/update-cart', [MainController::class, 'update_cart_totals']);
+Route::get('/shop', [MainController::class, 'shop']);
+Route::get('/contact',[ContactController::class,'index'])->name('contact');
+Route::post('/contact',[ContactController::class,'sendMessage']);
+Route::get(('/admin'), [MainController::class, 'admin']);
+Route::get(('/cart'), [MainController::class, 'cart']);
+Route::get(('/checkout'), [MainController::class, 'checkout']);
 
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+require __DIR__.'/auth.php';
+
+Route::middleware(['auth', 'can:is_admin'])->prefix('/admin')->group(function () {
+    Route::resource('products', ProductsController::class);
+    Route::resource('categories', CategoriesController::class);
+});
