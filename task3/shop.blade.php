@@ -153,7 +153,7 @@
                                             alt="">
                                         <div class="product-action">
                                             <a class="btn btn-outline-dark btn-square"
-                                                onclick="addProductToSession({{ $product }});UpdateCartTotals({{ $product['price'] }});"><i
+                                                onclick="addProductToSession({{ $product['id'] }});UpdateCartTotals({{ $product->getPrice()}});"><i
                                                     class="fa fa-shopping-cart"></i></a>
                                             <a class="btn btn-outline-dark btn-square" href=""><i
                                                     class="far fa-heart"></i></a>
@@ -197,11 +197,11 @@
 
 @section('scripts')
     <script>
-        function addProductToSession(product) {
+        function addProductToSession(id) {
             $.ajax({
                 url: '{{ url('/add-product') }}',
                 data: {
-                    product: product
+                    id: id
                 },
                 success: (data) => {
                     console.log(data);

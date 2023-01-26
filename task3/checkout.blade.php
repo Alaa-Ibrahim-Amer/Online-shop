@@ -149,10 +149,10 @@
                     <div class="border-bottom">
                         <h6 class="mb-3">Products</h6>
 
-                        @foreach(session()->get('cart_products', []) as $product)
+                        @foreach($products as $product)
                         <div class="d-flex justify-content-between">
-                            <p>{{$product['name']}}</p>
-                            <p>{{$product['price']}}</p>
+                            <p>{{$product['name']}} x {{session()->get('quantity',0)[$product['id']]}}</p> 
+                            <p>{{$product->getPrice()}}</p>
                         </div>
                         @endforeach
                     </div>
