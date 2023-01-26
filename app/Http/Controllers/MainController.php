@@ -6,15 +6,17 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\Size;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use PhpParser\ErrorHandler\Collecting;
 
 class MainController extends Controller
 {
     //
     function index()
     {
-
+        //session()->flush();
         return view('index')->with([
             'categories' => Category::all(),
             'products' => Product::all()
@@ -72,17 +74,29 @@ class MainController extends Controller
 
     function add_product(Request $request)
     {
-        if ($request->has('product')) {
-            $cart_products = Session::get('cart_products', []);
-            array_push($cart_products, $request->get('product'));
-            Session::put('cart_products', $cart_products);
-            return response()->json('Data addedd successfully');
+        if ($request->has('id')) {
+            $id = $request->get('id');
+            $ids =Session::get('ids', []);
+            if(in_array($id,$ids)){
+                $array = Session::get('quantity',array());
+                $array[strval($id)]+=1;
+                Session::put('quantity' , $array);
+                return response()->json(session()->all());
+            }
+            else {
+                $array = Session::get('quantity',array());
+                $array[strval($id)] = 1;
+                Session::put('quantity' , $array);
+                array_push($ids, $request->get('id'));
+                Session::put('ids', $ids);
+                return response()->json(session()->all());
+            }
         }
-        return abort(404);
+            return abort(404);
     }
     function update_cart_totals(Request $request)
     {
-        if ($request->has('price')) {
+        if ($request->has('price')){
             $sub_total = Session::get('sub_total', 0);
             $sub_total +=  $request->get('price');
             Session::put('sub_total', $sub_total);
@@ -94,6 +108,7 @@ class MainController extends Controller
         return abort(404);
 
     }
+
     function admin()
     {
 
@@ -101,10 +116,20 @@ class MainController extends Controller
     }
     function checkout()
     {
-        return view('checkout');
+        $ids = session::get('ids',[]);
+        $products = Product::whereIn('id', $ids)->get();
+        return view('checkout')->with([
+            'products' => $products,
+            'ids'=>$ids
+        ]);
     }
     function cart()
     {
-        return view('cart');
+        $ids = session::get('ids',[]);
+        $products = Product::whereIn('id', $ids)->get();
+        return view('cart')->with([
+            'products' => $products,
+            'ids'=>$ids
+        ]);
     }
 }
