@@ -108,6 +108,20 @@ class MainController extends Controller
         return abort(404);
 
     }
+    function dec_cart_totals(Request $request)
+    {
+        if ($request->has('price')){
+            $sub_total = Session::get('sub_total', 0);
+            $sub_total -=  $request->get('price');
+            Session::put('sub_total', $sub_total);
+            $shapping = Session::get('shapping', 0);
+            $shapping -= 2;
+            Session::put('shapping', $shapping);
+            return response()->json('price updated successfully');
+        }
+        return abort(404);
+
+    }
 
     function admin()
     {

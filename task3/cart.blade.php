@@ -33,7 +33,8 @@
                       <a
                         type="button"
                         class="decBtn btn btn-sm btn-primary btn-minus"
-                        href=""
+                        href="{{ url('/cart') }}"
+                        onclick="decQuantity({{$product['id']}});dec_cart_totals({{ $product->getPrice() }});"
                       >
                         <i class="fa fa-minus"></i>
                       </a>
@@ -47,7 +48,8 @@
                       <a
                         type="button"
                         class="incBtn btn btn-sm btn-primary btn-plus"
-                        href=""
+                        href="{{ url('/cart') }}"
+                        onclick="incQuantity({{$product['id']}});UpdateCartTotals({{ $product->getPrice() }});"
                       >
                         <i class="fa fa-plus"></i>
                       </a>
@@ -56,7 +58,7 @@
                 </td>
                 <td class="align-middle">{{$product->getPrice() * session()->get('quantity',0)[$product['id']]}}</td>
                 <td class="align-middle">
-                  <a class="btn btn-sm btn-danger" type="button" href="">
+                  <a class="btn btn-sm btn-danger" type="button" href="{{ url('/cart') }}" onclick="deleteProduct({{$product['id']}});dec_cart_totals({{ $product->getPrice() }});return confirm('Are you sure?')">
                     <i class="fa fa-times"></i>
                   </a>
                 </td>
@@ -110,4 +112,61 @@
         </div>
       </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        function incQuantity(id) {
+            $.ajax({
+                url: '{{ url('/inc-quantuty-in-cart') }}',
+                data: {
+                    id: id
+                },
+                success: (data) => {
+                    console.log(data);
+                }
+            })
+        }
+        function decQuantity(id) {
+            $.ajax({
+                url: '{{ url('/dec-quantuty-in-cart') }}',
+                data: {
+                    id: id
+                },
+                success: (data) => {
+                    console.log(data);
+                }
+            })
+        }
+        function deleteProduct(id) {
+            $.ajax({
+                url: '{{ url('/delete-product-in-cart') }}',
+                data: {
+                    id: id
+                },
+                success: (data) => {
+                    console.log(data);
+                }
+            })
+        }
+        function UpdateCartTotals(price){
+            $.ajax({
+                url: '{{ url('/update-cart') }}',
+                data: {
+                    price: price
+                },
+                success: (data) => {
+                    console.log(data);
+                }
+            })}
+            function dec_cart_totals(price){
+            $.ajax({
+                url: '{{ url('/dec-total-cart') }}',
+                data: {
+                    price: price
+                },
+                success: (data) => {
+                    console.log(data);
+                }
+            })}
+    </script>
 @endsection
