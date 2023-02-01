@@ -41,14 +41,37 @@
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
+                        @if(Auth::user())
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
-                            My Account
+                            Welcome {{ Auth::user()->name }}
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">Sign in</button>
-                            <button class="dropdown-item" type="button">Sign up</button>
+                            <button class="dropdown-item" type="button"> profile </button>
+                            
+                            @if(Auth::user()->is_admin == 1)
+                            <button class="dropdown-item" type="button">admin panel</button>
+                            @endif 
+                            
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button class="dropdown-item" href="route('logout')" type="button"  onclick="event.preventDefault();
+                                this.closest('form').submit();" >logout</button>
+                            </form>
+                        
                         </div>
+                        @endif
+                        @if(!Auth::user())
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" >
+                            login/signup
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" type="button" href="{{url('/login')}}" >Login</a>
+                            <a class="dropdown-item" type="button" href="{{url('/register')}}">Sign up</a>
+                        </div>
+                        @endif
                     </div>
+
+                    
                     <div class="btn-group mx-2">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
                             USD
@@ -144,23 +167,23 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav mr-auto py-0">
-                            <a href="{{ url('') }}" class="nav-item nav-link active">Home</a>
-                            <a href="{{ url('shop') }}" class="nav-item nav-link">Shop</a>
-                            <a href="{{ url('cart') }}" class="nav-item nav-link">Cart</a>
-                            <a href="{{ url('checkout') }}" class="nav-item nav-link">Checkout</a>
-                            <a href="{{ url('contact') }}" class="nav-item nav-link">Contact</a>
+                        <div class="navbar-nav mr-auto py-0" >
+                            <a href="{{ url('') }}" class="nav-item nav-link {{  request()->route()->named('') ? 'active' : ''}}">Home</a>
+                            <a href="{{ url('shop') }}" class="nav-item nav-link {{  request()->route()->named('shop') ? 'active' : ''}}">Shop</a>
+                            <a href="{{ url('cart') }}" class="nav-item nav-link {{  request()->route()->named('cart') ? 'active' : ''}}">Cart</a>
+                            <a href="{{ url('checkout') }}" class="nav-item nav-link {{  request()->route()->named('checkout') ? 'active' : ''}}">Checkout</a>
+                            <a href="{{ url('contact') }}" class="nav-item nav-link {{  request()->route()->named('contact') ? 'active' : ''}}">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <a href="" class="btn px-0">
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle"
-                                    style="padding-bottom: 2px">0</span>
+                                    style="padding-bottom: 2px"  id="loved_products_count" >{{count(session()->get('lovedproducts', [])) }}</span>
                             </a>
                             <a href="" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle"
-                                    style="padding-bottom: 2px">{{ count(session()->get('ids', [])) }}</span>
+                                    style="padding-bottom: 2px"  id="product_count" >{{ count(session()->get('ids', [])) }}</span>
                             </a>
                         </div>
                     </div>
@@ -231,9 +254,15 @@
                     <div class="col-md-4 mb-5">
                         <h5 class="text-secondary text-uppercase mb-4">Newsletter</h5>
                         <p>Duo stet tempor ipsum sit amet magna ipsum tempor est</p>
-                        <form action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Your Email Address" />
+                        <form method="POST" action="{{ url('newsletter') }}">
+                            @csrf
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Email Address"  name="email"/>
+                                @error('email')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                <script> alert("{{ $message }}");</script>
+                                @enderror
+                                <br>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary">Sign Up</button>
                                 </div>

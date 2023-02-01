@@ -102,11 +102,12 @@
                 <h5 id="total"></h5>
                $ {{session()->get('sub_total', 0)+session()->get('shapping',0)}}
               </div>
-              <button
+              <a
                 class="btn btn-block btn-primary font-weight-bold my-3 py-3"
+                href="{{ url('checkout') }}"
               >
                 Proceed To Checkout
-              </button>
+              </a>
             </div>
           </div>
         </div>

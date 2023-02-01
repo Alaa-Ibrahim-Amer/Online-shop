@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\newsletter;
 use App\Models\Product;
 use App\Models\Size;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,6 +22,12 @@ class MainController extends Controller
             'categories' => Category::all(),
             'products' => Product::all()
         ]);
+    }
+
+    function admin()
+    {
+
+        return view('layouts.admin');
     }
 
     function shop(Request $request)
@@ -72,78 +79,53 @@ class MainController extends Controller
         ]);
     }
 
-    function add_product(Request $request)
+    function details($id)
     {
-        if ($request->has('id')) {
-            $id = $request->get('id');
-            $ids =Session::get('ids', []);
-            if(in_array($id,$ids)){
-                $array = Session::get('quantity',array());
-                $array[strval($id)]+=1;
-                Session::put('quantity' , $array);
-                return response()->json(session()->all());
-            }
-            else {
-                $array = Session::get('quantity',array());
-                $array[strval($id)] = 1;
-                Session::put('quantity' , $array);
-                array_push($ids, $request->get('id'));
-                Session::put('ids', $ids);
-                return response()->json(session()->all());
-            }
-        }
-            return abort(404);
-    }
-    function update_cart_totals(Request $request)
-    {
-        if ($request->has('price')){
-            $sub_total = Session::get('sub_total', 0);
-            $sub_total +=  $request->get('price');
-            Session::put('sub_total', $sub_total);
-            $shapping = Session::get('shapping', 0);
-            $shapping += 2;
-            Session::put('shapping', $shapping);
-            return response()->json('price updated successfully');
-        }
-        return abort(404);
-
-    }
-    function dec_cart_totals(Request $request)
-    {
-        if ($request->has('price')){
-            $sub_total = Session::get('sub_total', 0);
-            $sub_total -=  $request->get('price');
-            Session::put('sub_total', $sub_total);
-            $shapping = Session::get('shapping', 0);
-            $shapping -= 2;
-            Session::put('shapping', $shapping);
-            return response()->json('price updated successfully');
-        }
-        return abort(404);
-
-    }
-
-    function admin()
-    {
-
-        return view('layouts.admin');
+        $products = Product::all();
+        $theproduct = Product::findOrFail($id);
+        return view('details')->with([
+            'products' => $products,
+            'theproduct' => $theproduct
+        ]);
     }
     function checkout()
     {
-        $ids = session::get('ids',[]);
+        $ids = session::get('ids', []);
         $products = Product::whereIn('id', $ids)->get();
         return view('checkout')->with([
             'products' => $products,
-            'ids'=>$ids
+            'ids' => $ids
         ]);
     }
     function cart()
     {
-        $ids = session::get('ids',[]);
+        $ids = session::get('ids', []);
         $products = Product::whereIn('id', $ids)->get();
         return view('cart')->with([
             'products' => $products,
-            'ids'=>$ids
+            'ids' => $ids
         ]);
+    }
+
+    function newsletter(Request $request)
+    {
+        $request->validate(newsletter::$rules);
+        $newsletter = new newsletter;
+        $newsletter['email'] = $request->input('email');
+        $newsletter->save();
+        return redirect()->action([MainController::class, 'index']);
+ 
+    }
+
+    function loved_products_count(Request $request)
+    {
+        if ($request->has('id')) {
+            $id = $request->get('id');
+            $ids = Session::get('lovedproducts', []);
+            array_push($ids, $id);
+            Session::put('lovedproducts', $ids);
+            return response()->json(count($ids));
+        }
+        return abort(404);
     }
 }

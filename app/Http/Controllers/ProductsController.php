@@ -124,4 +124,11 @@ class ProductsController extends Controller
         return redirect()->action([ProductsController::class, 'index'])->with('success', 'Record has been deleted successfully!');
   
     }
+    static function update_rate($id,$rating)
+    {
+        $product = Product::findOrFail($id);
+        $product['rating'] = ($product['rating'] * $product['rating_count'] + $rating) /($product['rating_count'] + 1);
+        $product['rating_count'] += 1;
+        $product->save();
+    }
 }

@@ -155,10 +155,8 @@
                                             <a class="btn btn-outline-dark btn-square"
                                                 onclick="addProductToSession({{ $product['id'] }});UpdateCartTotals({{ $product->getPrice()}});"><i
                                                     class="fa fa-shopping-cart"></i></a>
-                                            <a class="btn btn-outline-dark btn-square" href=""><i
+                                            <a class="btn btn-outline-dark btn-square" onclick="UpdateCartLove({{$product['id']}})"><i
                                                     class="far fa-heart"></i></a>
-                                            <a class="btn btn-outline-dark btn-square" href=""><i
-                                                    class="fa fa-sync-alt"></i></a>
                                             <a class="btn btn-outline-dark btn-square" href=""><i
                                                     class="fa fa-search"></i></a>
                                         </div>
@@ -204,7 +202,7 @@
                     id: id
                 },
                 success: (data) => {
-                    console.log(data);
+                    $('#product_count').html(data);
                 }
             })
         }
@@ -216,6 +214,17 @@
                 },
                 success: (data) => {
                     console.log(data);
+                }
+            })
+        }
+        function UpdateCartLove(id){
+            $.ajax({
+                url: '{{ url('/loved_products_count') }}',
+                data: {
+                    id:id 
+                },
+                success: (data) => {
+                    $('#loved_products_count').html(data);
                 }
             })
         }

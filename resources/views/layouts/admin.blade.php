@@ -44,7 +44,7 @@
           <img src="{{url('dist/img/user4-128x128.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="{{url('#')}}" class="d-block">Alaa Ibrahim Amer</a>
+          <a href="{{url('#')}}" class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -70,15 +70,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Users
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">
+            <a class="nav-link" href="{{url('admin/sizes')}}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Sizes
@@ -86,7 +78,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
+            <a class="nav-link"href="{{url('admin/colors')}}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Colors
@@ -94,10 +86,29 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('#')}}" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Log Out</p>
+            <a class="nav-link"  href="{{url('admin/users')}}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Users
+              </p>
             </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('admin/orders')}}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Orders
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <button class="nav-link" href="route('logout')" type="button"  onclick="event.preventDefault();
+              this.closest('form').submit();" >logout</button>
+          </form>
+
+
           </li>
         </ul>
       </nav>
