@@ -31,18 +31,20 @@ Route::get('/contact',[ContactController::class,'index'])->name('contact');
 Route::post('/contact',[ContactController::class,'sendMessage']);
 Route::get(('/admin'), [MainController::class, 'admin']);
 Route::get('/details/{id}', [MainController::class, 'details']);
-Route::get(('/checkout'), [MainController::class, 'checkout'])->middleware(['auth']);
+Route::get(('/checkout'), [MainController::class, 'checkout'])->middleware(['auth'])->name('checkout');
 Route::get('/cart', [MainController::class, 'cart'])->name('cart');
 Route::get('/add-product', [CartController::class, 'add_product']);
 Route::get('/update-cart', [CartController::class, 'update_cart_totals']);
 Route::get('/add-product-q', [CartController::class, 'add_product_q']);
 Route::get('/update-cart-q', [CartController::class, 'update_cart_totals_q']);
 Route::get('/dec-total-cart', [CartController::class, 'dec_cart_totals']);
+Route::get('/delete-total-cart', [CartController::class, 'delete_cart_totals']);
 Route::get(('/inc-quantuty-in-cart'), [CartController::class, 'incQuantity']);
 Route::get(('/dec-quantuty-in-cart'), [CartController::class, 'decQuantity']);
 Route::get(('/delete-product-in-cart'), [CartController::class, 'deleteLine']);
 Route::post('/add-review/{id}',[ReviewController::class,'add_review']);
 Route::post('/newsletter',[MainController::class,'newsletter']);
+Route::post('/orders/create', [OrderController::class,'makeOrder']);
 
 
 Route::get('/dashboard', function () {

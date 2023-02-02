@@ -145,5 +145,23 @@ class CartController extends Controller
         
     }
 
+    function delete_cart_totals(Request $request)
+    {
+        if ($request->has('price')){
+            $id = $request->get('id');
+            $array = Session::get('quantity',array());
+            $q=$array[strval($id)];
+            $sub_total = Session::get('sub_total', 0);
+            $sub_total -=  $request->get('price')* $q;
+            Session::put('sub_total', $sub_total);
+            $shapping = Session::get('shapping', 0);
+            $shapping -= 2 * $q;
+            Session::put('shapping', $shapping);
+            return response()->json('price updated successfully');
+        }
+        return abort(404);
+    }
+
+    
     
 }

@@ -46,10 +46,8 @@
                             Welcome {{ Auth::user()->name }}
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button"> profile </button>
-                            
-                            @if(Auth::user()->is_admin == 1)
-                            <button class="dropdown-item" type="button">admin panel</button>
+                        @if(Auth::user()->is_admin == 1)
+                            <a class="dropdown-item" type="button" href="{{url('/admin')}}">admin panel</a>
                             @endif 
                             
                             <form method="POST" action="{{ route('logout') }}">

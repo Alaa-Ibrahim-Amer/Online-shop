@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\View\Components\product_card;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -30,8 +32,6 @@ class AppServiceProvider extends ServiceProvider
         paginator::useBootstrap();
         $categories = Category::all();
         View::share('categories', $categories);
-      //  $products = Product::all();
-      //  View::share('products', $products);
    
     }
 }

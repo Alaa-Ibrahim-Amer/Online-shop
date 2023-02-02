@@ -58,7 +58,7 @@
                 </td>
                 <td class="align-middle">{{$product->getPrice() * session()->get('quantity',0)[$product['id']]}}</td>
                 <td class="align-middle">
-                  <a class="btn btn-sm btn-danger" type="button" href="{{ url('/cart') }}" onclick="deleteProduct({{$product['id']}});dec_cart_totals({{ $product->getPrice() }});return confirm('Are you sure?')">
+                  <a class="btn btn-sm btn-danger" type="button" href="{{ url('/cart') }}" onclick="deleteProduct({{$product['id']}});delete_cart_totals({{ $product->getPrice() }},{{$product['id']}});return confirm('Are you sure?')">
                     <i class="fa fa-times"></i>
                   </a>
                 </td>
@@ -154,6 +154,17 @@
                 url: '{{ url('/update-cart') }}',
                 data: {
                     price: price
+                },
+                success: (data) => {
+                    console.log(data);
+                }
+            })}
+        function delete_cart_totals(price,id){
+            $.ajax({
+                url: '{{ url('/delete-total-cart') }}',
+                data: {
+                    price: price,
+                    id:id
                 },
                 success: (data) => {
                     console.log(data);

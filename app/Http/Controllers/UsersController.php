@@ -21,7 +21,7 @@ class UsersController extends Controller
     function make_admin($id)
     {
         $user = User::findOrFail($id);
-        $user['is_admin'] = 1;
+        $user['is_admin'] = !$user['is_admin'];
         $user->save();
         return redirect()->action([UsersController::class, 'index']);
         

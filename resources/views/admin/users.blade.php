@@ -52,7 +52,7 @@
                                         @method('PUT')
                                         @csrf
                                         <button class="btn btn-app" onclick="return confirm('Are you sure?')">
-                                            <i class="fas fa-unlock" ></i> Add Admin
+                                            <i class="fas fa-unlock" ></i> toggle is_Admin
                                           </button>
                                     </form>
                             </td>
